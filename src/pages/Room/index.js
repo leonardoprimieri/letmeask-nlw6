@@ -18,15 +18,16 @@ import {
   FormFooter,
 } from "./styles";
 import { Form, Formik } from "formik";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { database } from "../../services/firebase";
 import { newQuestionSchema } from "../../utils/FormSchema";
 import { useEffect, useState } from "react";
 import { useRoom } from "../../hooks/useRoom";
+import { FiPower } from "react-icons/fi";
 
 function Room() {
   const { id } = useParams();
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
   const [questions, setQuestions] = useState([]);
   const [title, setTitle] = useState([]);
 
@@ -89,8 +90,15 @@ function Room() {
     <Container>
       <header>
         <HeaderContent>
-          <img src={logoImg} alt="LetMeAsk" />
+          <Link to="/">
+            <img src={logoImg} alt="LetMeAsk" />
+          </Link>
           <RoomCode code={id} />
+          {user && (
+            <button onClick={signOut}>
+              <FiPower size={24} color="var(--purple)" />
+            </button>
+          )}
         </HeaderContent>
       </header>
 

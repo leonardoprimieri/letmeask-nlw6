@@ -14,8 +14,14 @@ export const HeaderContent = styled.div`
   justify-content: space-between;
   align-items: center;
 
-  > img {
-    max-height: 45px;
+  > a img {
+    max-height: 50px;
+  }
+
+  > button {
+    background: transparent;
+    border: 0;
+    cursor: pointer;
   }
 `;
 

@@ -51,10 +51,11 @@ const AuthProvider = ({ children }) => {
     const provider = new firebase.auth.GithubAuthProvider();
 
     const result = await auth.signInWithPopup(provider);
+    console.log(result);
     if (result.user) {
       const { displayName, photoURL, uid } = result.user;
 
-      if (!displayName || !photoURL) {
+      if (!photoURL) {
         throw new Error("Missingg information from Google Account.");
       }
 
@@ -66,8 +67,14 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+  async function signOut() {
+    await auth.signOut();
+  }
+
   return (
-    <AuthContext.Provider value={{ user, signInWithGoogle,signInGitHub }}>
+    <AuthContext.Provider
+      value={{ user, signInWithGoogle, signInGitHub, signOut }}
+    >
       {children}
     </AuthContext.Provider>
   );
