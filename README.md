@@ -14,8 +14,14 @@
     <img alt="Letmeask" title="Letmeask" src=".github/home.png" />
 </h1>
 
-<br>
+## Funcionalidaded do Modal
 
+<h1 align="center">
+    <img alt="Letmeask" title="Letmeask" src=".github/modal.png" />
+</h1>
+
+<br>
+ 
 ## 🚀 Techs
 
 - [React](https://reactjs.org)
