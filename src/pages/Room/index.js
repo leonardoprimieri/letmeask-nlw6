@@ -3,6 +3,8 @@ import TextArea from "../../components/UI/TextArea";
 import Button from "../../components/UI/Button";
 import RoomCode from "../../components/UI/RoomCode";
 
+import { ReactComponent as Like } from "../../assets/images/like.svg";
+
 import {
   ErrorNotification,
   SuccessNotification,
@@ -16,20 +18,33 @@ import {
   UserInfo,
   RoomTitle,
   FormFooter,
+  QuestionList,
+  LikeButton,
 } from "./styles";
 import { Form, Formik } from "formik";
 import { Link, useParams } from "react-router-dom";
 import { database } from "../../services/firebase";
 import { newQuestionSchema } from "../../utils/FormSchema";
-import { useEffect, useState } from "react";
 import { useRoom } from "../../hooks/useRoom";
 import { FiPower } from "react-icons/fi";
+import Question from "../../components/UI/Question";
 
 function Room() {
   const { id } = useParams();
   const { user, signOut } = useAuth();
-  const [questions, setQuestions] = useState([]);
-  const [title, setTitle] = useState([]);
+  const { title, questions } = useRoom(id);
+
+  const handleLikeQuestion = async (questionId, likeId) => {
+    if (likeId) {
+      await database
+        .ref(`rooms/${id}/questions/${questionId}/likes/${likeId}`)
+        .remove();
+    } else {
+      await database.ref(`rooms/${id}/questions/${questionId}/likes`).push({
+        authorId: user?.id,
+      });
+    }
+  };
 
   const handleSendQuestion = async (values, { resetForm }) => {
     if (values.newQuestion.trim() === "") {
@@ -62,30 +77,6 @@ function Room() {
     resetForm({});
   };
 
-  useEffect(() => {
-    const roomRef = database.ref(`rooms/${id}`);
-
-    roomRef.on("value", (room) => {
-      const databaseRoom = room.val();
-      const firebaseQuestions = databaseRoom.questions ?? {};
-
-      const parsedQuestions = Object.entries(firebaseQuestions).map(
-        ([key, value]) => {
-          return {
-            id: key,
-            content: value.content,
-            author: value.author,
-            isHighlighted: value.isHighlighted,
-            isAnswered: value.isAnswered,
-          };
-        }
-      );
-
-      setTitle(databaseRoom.title);
-      setQuestions(parsedQuestions);
-    });
-  }, [id]);
-
   return (
     <Container>
       <header>
@@ -94,6 +85,7 @@ function Room() {
             <img src={logoImg} alt="LetMeAsk" />
           </Link>
           <RoomCode code={id} />
+
           {user && (
             <button onClick={signOut}>
               <FiPower size={24} color="var(--purple)" />
@@ -149,6 +141,23 @@ function Room() {
             </Form>
           )}
         </Formik>
+        <QuestionList>
+          {questions.map((question, idx) => (
+            <Question
+              key={idx}
+              author={question.author}
+              content={question.content}
+            >
+              <LikeButton
+                liked={question.likeId ? true : false}
+                onClick={() => handleLikeQuestion(question.id, question.likeId)}
+              >
+                {question.likeCount > 0 && <span>{question.likeCount}</span>}
+                <Like stroke="var(--gray-400)" />
+              </LikeButton>
+            </Question>
+          ))}
+        </QuestionList>
       </Main>
     </Container>
   );

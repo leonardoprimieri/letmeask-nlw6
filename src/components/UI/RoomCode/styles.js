@@ -4,7 +4,6 @@ export const Container = styled.button`
   height: 40px;
   border-radius: 8px;
   overflow: hidden;
-
   background: var(--white);
   border: 1px solid var(--purple);
   cursor: pointer;

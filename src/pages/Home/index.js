@@ -47,6 +47,11 @@ function Home() {
       return;
     }
 
+    if (roomRef.val().endedAt) {
+      ErrorNotification("Nooo", "Essa sala já fechou :(");
+      return;
+    }
+
     history.push(`/rooms/${roomCode}`);
   };
 

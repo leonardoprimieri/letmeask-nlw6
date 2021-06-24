@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 export const Container = styled.div`
   header {
@@ -16,12 +16,6 @@ export const HeaderContent = styled.div`
 
   > a img {
     max-height: 50px;
-  }
-
-  > button {
-    background: transparent;
-    border: 0;
-    cursor: pointer;
   }
 `;
 
@@ -104,22 +98,43 @@ export const QuestionList = styled.div`
   margin-top: 32px;
 `;
 
-export const LikeButton = styled.button`
-  border: 0;
-  background: transparent;
-  cursor: pointer;
+export const HeaderActions = styled.div`
   display: flex;
-  align-items: flex-end;
-  color: var(--gray-400);
-  gap: 8px;
+  justify-content: space-around;
+  align-items: center;
 
-  ${({ liked }) =>
-    liked &&
-    css`
-      color: var(--purple);
+  width: 50%;
+  gap: 12px;
 
-      svg path {
-        stroke: var(--purple);
-      }
-    `}
+  > button {
+    height: 40px;
+  }
+
+  button.signOut {
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+  }
+`;
+
+export const ModalContent = styled.div`
+  background: var(--white);
+  padding: 2rem 8rem;
+  border-radius: 8px;
+  color: #212121;
+  text-align: center;
+
+  h2 {
+    margin: 2rem;
+  }
+`;
+
+export const ModalButtons = styled.div`
+  display: flex;
+  gap: 12px;
+
+  @media (max-width: 700px) {
+    flex-direction: column;
+    gap: 0px;
+  }
 `;

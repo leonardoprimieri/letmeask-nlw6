@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export const Container = styled.button`
   border-radius: 8px;
@@ -12,6 +12,14 @@ export const Container = styled.button`
   justify-content: center;
   align-items: center;
   transition: filter 400ms ease;
+
+  ${({ isOutlined }) =>
+    isOutlined &&
+    css`
+      background: var(--white);
+      border: 1px solid var(--purple);
+      color: var(--purple);
+    `}
 
   cursor: pointer;
 

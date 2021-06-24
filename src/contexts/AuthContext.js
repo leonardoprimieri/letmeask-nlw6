@@ -1,10 +1,13 @@
 import { createContext, useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { firebase, auth } from "../services/firebase";
 
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState();
+  const [loading, setLoading] = useState(true);
+  const history = useHistory();
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -21,6 +24,7 @@ const AuthProvider = ({ children }) => {
           avatar: photoURL,
         });
       }
+      setLoading(false);
     });
 
     return () => {
@@ -51,7 +55,6 @@ const AuthProvider = ({ children }) => {
     const provider = new firebase.auth.GithubAuthProvider();
 
     const result = await auth.signInWithPopup(provider);
-    console.log(result);
     if (result.user) {
       const { displayName, photoURL, uid } = result.user;
 
@@ -69,6 +72,11 @@ const AuthProvider = ({ children }) => {
 
   async function signOut() {
     await auth.signOut();
+    return history.push("/");
+  }
+
+  if (loading) {
+    return <h1>Carregando...</h1>;
   }
 
   return (
