@@ -1,16 +1,25 @@
 import { UserInfo } from "../../../pages/Room/styles";
-import { Container, QuestionFooter } from "./styles";
+import { Container, QuestionFooter, Buttons } from "./styles";
 
-function Question({ content, author, children }) {
+function Question({
+  content,
+  author,
+  children,
+  isAnswered = false,
+  isHighlighted = false,
+}) {
   return (
-    <Container>
+    <Container
+      isAnswered={isAnswered}
+      isHighlighted={isHighlighted && !isAnswered}
+    >
       <p>{content}</p>
       <QuestionFooter>
         <UserInfo>
           <img src={author.avatar} alt={author.name} />
           <span>{author.name}</span>
         </UserInfo>
-        {children}
+        <Buttons>{children}</Buttons>
       </QuestionFooter>
     </Container>
   );

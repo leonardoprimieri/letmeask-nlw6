@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export const Container = styled.div`
   background: #fefefe;
@@ -17,6 +17,19 @@ export const Container = styled.div`
     border: 0;
     cursor: pointer;
   }
+
+  ${({ isHighlighted }) =>
+    isHighlighted &&
+    css`
+      background: #f4f0ff;
+      border: 1px solid var(--purple);
+    `}
+
+  ${({ isAnswered }) =>
+    isAnswered &&
+    css`
+      background: #dbdcdd;
+    `}
 `;
 
 export const QuestionFooter = styled.div`
@@ -24,4 +37,9 @@ export const QuestionFooter = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-top: 24px;
+`;
+
+export const Buttons = styled.div`
+  display: flex;
+  gap: 12px;
 `;

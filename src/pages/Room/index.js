@@ -147,14 +147,20 @@ function Room() {
               key={idx}
               author={question.author}
               content={question.content}
+              isAnswered={question.isAnswered}
+              isHighlighted={question.isHighlighted}
             >
-              <LikeButton
-                liked={question.likeId ? true : false}
-                onClick={() => handleLikeQuestion(question.id, question.likeId)}
-              >
-                {question.likeCount > 0 && <span>{question.likeCount}</span>}
-                <Like stroke="var(--gray-400)" />
-              </LikeButton>
+              {!question.isAnswered && (
+                <LikeButton
+                  liked={question.likeId ? true : false}
+                  onClick={() =>
+                    handleLikeQuestion(question.id, question.likeId)
+                  }
+                >
+                  {question.likeCount > 0 && <span>{question.likeCount}</span>}
+                  <Like stroke="var(--gray-400)" />
+                </LikeButton>
+              )}
             </Question>
           ))}
         </QuestionList>
